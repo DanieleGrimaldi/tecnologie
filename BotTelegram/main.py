@@ -1,10 +1,12 @@
 from TelegramAPI import *
-from prezzi import *
 from metodi import *
+from connessione import *
 
-myPrezzi = leggiPrezzi("prezzo_alle_8.csv")
-
-print(myPrezzi[0])
+connection = create_db_connection("localhost","root","","dbtelegram")
+#execute_query(connection,"SET GLOBAL max_allowed_packet = 268435456;")
+#svuotaDB (connection)
+#insertImpianti("https://www.mise.gov.it/images/exportCSV/anagrafica_impianti_attivi.csv",connection)
+#insertPrezzi("https://www.mise.gov.it/images/exportCSV/prezzo_alle_8.csv",connection)
 
 token="6104350976:AAHJm-vI7p_gYKR56AyXRzeJKHAvrfBCdgo"
 
