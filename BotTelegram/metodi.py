@@ -19,36 +19,38 @@ def insertImpianti(URL,connection):
         cont+=1
     query+=";"
     open("impianti.sql", "w").write(query)
-    execute_query(connection, query)
+    connection.execute_query(query)
 
 def insertPrezzi(URL,connection):
     response = requests.get(URL)
-    query="INSERT INTO carburante VALUES"
+    query="INSERT INTO carburante (tipologia,prezzo,idAutopompa) VALUES"
     text = response.content.decode("utf-8")
     cont=0
+    primo=True
     for riga in text.split("\n"):
         v=riga.split(";")
         if cont>1 and riga != "" and v[3]=="1":             
-            if cont!=2:  
+            if not primo: 
                 query+=f",\n('{v[1]}',{v[2]},{v[0]})"   
             else:
-                query+=f"\n('{v[1]}',{v[2]},{v[0]})"     
+                query+=f"\n('{v[1]}',{v[2]},{v[0]})" 
+                primo = False    
         
         cont+=1
 
     query+=";"
     open("prezzi.sql", "w").write(query)
-    #execute_query(connection, query)
+    connection.execute_query(query)
 
 def svuotaDB (connection):
     sql="TRUNCATE TABLE carburante;"
-    execute_query(connection,sql)
+    connection.execute_query(sql)
     sql="SET FOREIGN_KEY_CHECKS = 0;"
-    execute_query(connection,sql)
+    connection.execute_query(sql)
     sql="TRUNCATE table autopompa"
-    execute_query(connection,sql)
+    connection.execute_query(sql)
     sql="SET FOREIGN_KEY_CHECKS = 1;"
-    execute_query(connection,sql)
+    connection.execute_query(sql)
 
 
 def isfloat(num):
