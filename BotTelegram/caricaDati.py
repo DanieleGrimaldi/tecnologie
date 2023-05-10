@@ -34,7 +34,7 @@ def insertImpianti(URL,connection):
                     primo=False   
         cont+=1
     query+=";"
-    open("impianti.sql", "w").write(query)
+    #open("impianti.sql", "w").write(query)
     connection.execute_query(query)
 
 
@@ -67,7 +67,7 @@ def insertPrezzi(URL,connection):
         cont+=1
 
     query+=";"
-    open("prezzi.sql", "w").write(query)
+    #open("prezzi.sql", "w").write(query)
     connection.execute_query(query)
 
 def svuotaDB (connection):

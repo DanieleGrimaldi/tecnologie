@@ -10,7 +10,6 @@ threadCarica.start()
 
 
 token="6104350976:AAHJm-vI7p_gYKR56AyXRzeJKHAvrfBCdgo"
-
 MyTelegram = Telegram(token) 
 
 listaMessaggi = MyTelegram.getUpdates()
