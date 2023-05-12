@@ -18,12 +18,6 @@ class Telegram:
                     return False
         return False
     
-    def chatID(messaggio):
-        return messaggio["chat"]["id"]
-    
-    def text(messaggio):
-        return messaggio["text"]
-    
     def sendMessage(self,chatID,messaggio="ciao"):
         requests.get(self.URL+"sendMessage",params={"chat_id":chatID,"text":messaggio})
         return True

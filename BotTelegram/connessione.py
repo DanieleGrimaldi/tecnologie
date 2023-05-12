@@ -37,7 +37,7 @@ class Connessione:
         result = None
         try:
             self.cursor.execute(query)
-            result = self.cursor.fetchall()
+            result = self.cursor.fetchmany()
             return result
         except Error as err:
             print(f"Error: '{err}'")
