@@ -11,7 +11,7 @@ class Connessione:
             database=db_name
         )
         print(self.connection.get_server_info())
-        self.cursor =self.connection.cursor()
+        self.cursor =self.connection.cursor(buffered=True)
 
 
     def execute_query(self,query):

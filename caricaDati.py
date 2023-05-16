@@ -10,7 +10,7 @@ def aggiorna(connection):
 
         now = datetime.now()
 
-        if now.hour==9:#9 per essere sicuri al 100%
+        if  now.hour==9: # 9 per essere sicuri al 100%
             svuotaDB(connection)
             insertImpianti("https://www.mise.gov.it/images/exportCSV/anagrafica_impianti_attivi.csv",connection)
             insertPrezzi("https://www.mise.gov.it/images/exportCSV/prezzo_alle_8.csv",connection)
@@ -19,12 +19,25 @@ def aggiorna(connection):
 
 def insertImpianti(URL,connection):
     response = requests.get(URL)
+    cont=0
+    primo=True
+    valori=10000
+    cont2 =valori
+    query=""
     query="INSERT INTO  autopompa VALUES"
     text = response.content.decode("utf-8")
     cont=0
     primo=True
     for riga in text.split("\n"):
+
+        if(cont2==valori):
+            if query != "":
+                connection.execute_query(query)
+            query="INSERT INTO autopompa VALUES" 
+            cont2=0
+            primo=True
         v=riga.split(";")
+
         if cont>1 and riga != "":
             if(isfloat(v[8]) and isfloat(v[9])):
                 if not primo:
@@ -32,7 +45,9 @@ def insertImpianti(URL,connection):
                 else:
                     query+=f"\n({v[0]},{v[8]},{str.strip(v[9])},'{v[2]}')"     
                     primo=False   
+        cont2+=1
         cont+=1
+
     query+=";"
     #open("impianti.sql", "w").write(query)
     connection.execute_query(query)

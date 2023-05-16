@@ -1,16 +1,17 @@
 from connessione import *
+from ORS import *
 
 def start(chatID,username,connection):
     sql=f"select * from utente where IDchat = '{chatID}'"
     result=connection.read_query(sql)
     if len(result)>0:
-        return result[0][0]
+        return help()
     else:
         sql=f"INSERT INTO utente (IDchat,username) VALUES ({chatID},'{username}');"
         connection.execute_query(sql)
         sql=f"select * from utente where IDchat = '{chatID}'"
         result=connection.read_query(sql)
-        return result[0][0]
+        return help()
 
 def setCapienza(chatID,capienza,connection):
     capienza=int(capienza)
@@ -74,7 +75,7 @@ def ricerca(chatID,connection,latitude,longitude):
                 LIMIT  20;'''
         result=connection.read_query(sql)
         for var in result:
-            spesa=costoEffettivo(utente[1],var[3],var[4]/1000,utente[2])
+            spesa=costoEffettivo(utente[1],var[3],distanza(latitude,longitude,var[0],var[1]),utente[2])
             if(spesa<spesaMin):
                 spesaMin=spesa
                 conveniente=var
@@ -84,17 +85,18 @@ def ricerca(chatID,connection,latitude,longitude):
 def costoEffettivo(consumo,prezzo,distanza,quantita):
     lkm=1/consumo
     spesa=quantita*prezzo
-    spesa+=(distanza*2)*lkm*prezzo
+    spesa+=distanza*lkm*prezzo
     return spesa
 
 
+def distanza(start_latitude,start_longitude,end_latitude,end_longitude):
+
+    route_data = calculate_route(start_latitude, start_longitude, end_latitude, end_longitude)
+    return route_data["features"][0]["properties"]["summary"]["distance"]/1000
 
 
-
-
-
-
-
+def help():
+    return "i comandi sono:\n/tipologia x\n/capienza x\n/consumo x(km/l)\n"
 
 
 

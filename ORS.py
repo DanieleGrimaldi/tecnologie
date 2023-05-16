@@ -22,19 +22,3 @@ def calculate_route(start_latitude, start_longitude, end_latitude, end_longitude
         return None
 
 
-# Example usage
-start_latitude = 45.7325  # Replace with the start latitude value
-start_longitude = 9.2222  # Replace with the start longitude value
-end_latitude = 45.6873  # Replace with the end latitude value
-end_longitude = 9.1790  # Replace with the end longitude value
-
-
-route_data = calculate_route(start_latitude, start_longitude, end_latitude, end_longitude)
-
-if route_data:
-    # Extract the route information from the response data
-    distance = route_data["features"][0]["properties"]["summary"]["distance"]
-    duration = route_data["features"][0]["properties"]["summary"]["duration"]
-
-    print(f"Distance: {distance} meters")
-    print(f"Duration: {duration} seconds")
