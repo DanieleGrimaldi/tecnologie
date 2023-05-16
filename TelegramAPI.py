@@ -22,4 +22,15 @@ class Telegram:
         requests.get(self.URL+"sendMessage",params={"chat_id":chatID,"text":messaggio})
         return True
 
-    
+    def sendPosition(self,chat_id, latitude, longitude):
+        params = {
+            'chat_id': chat_id,
+            'latitude': latitude,
+            'longitude': longitude
+        }
+        requests.get(self.URL+"sendLocation", params=params)
+
+
+
+
+
