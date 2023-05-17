@@ -13,14 +13,14 @@ def start(chatID,username,connection):
         result=connection.read_query(sql)
         return help()
 
-def setCapienza(chatID,capienza,connection):
-    capienza=int(capienza)
-    if  capienza>=5 and capienza<=200:
-        sql=f"UPDATE utente SET capienza={capienza} WHERE chatID={chatID}; "
+def setLitri(chatID,litri,connection):
+    litri=int(litri)
+    if  litri>=1 and litri<=200:
+        sql=f"UPDATE utente SET litri={litri} WHERE chatID={chatID}; "
         connection.execute_query(sql)
         return "eseguito con successo"
     else:
-        return "manda un dato reale min 5 max 200"
+        return "manda un dato reale min 1 max 200"
     
 def setTipologia(chatID,tipologia,connection):
 
@@ -51,7 +51,7 @@ def issetVar(chatID,connection):
     return True
 
 def dati(chatID,connection):
-    sql=f"select tipologia,consumo,capienza from utente where chatID = '{chatID}'"
+    sql=f"select tipologia,consumo,litri from utente where chatID = '{chatID}'"
     result=connection.read_query(sql)
     return result[0]
 
@@ -59,7 +59,7 @@ def ricerca(chatID,connection,latitude,longitude):
     if(not issetVar(chatID,connection)):
         return "devi prima inserire i dati"
     else:
-        conveniente=0
+        conveniente=(0,0)
         spesaMin=100000000
         utente=dati(880180377,connection)
         tipo=utente[0]
@@ -78,7 +78,7 @@ def ricerca(chatID,connection,latitude,longitude):
             spesa=costoEffettivo(utente[1],var[3],distanza(latitude,longitude,var[0],var[1]),utente[2])
             if(spesa<spesaMin):
                 spesaMin=spesa
-                conveniente=var
+                conveniente=(var,spesa)
 
         return conveniente
 
@@ -96,7 +96,7 @@ def distanza(start_latitude,start_longitude,end_latitude,end_longitude):
 
 
 def help():
-    return "i comandi sono:\n/tipologia x\n/capienza x\n/consumo x(km/l)\n"
+    return "i comandi sono:\n/tipologia x\n/litri x(litri di benzina da fare)\n/consumo x(km/l)\nper il benzinaio più conveninte manda la posizione"
 
 
 

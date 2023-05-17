@@ -16,8 +16,9 @@ def comunica(connection):
                 chatID = m["chat"]["id"]  
                 try:
                     response=ricerca(chatID,connection,m["location"]["latitude"],m["location"]["longitude"])
-                    MyTelegram.sendPosition(chatID,response[0],response[1])
-
+                    luogo=response[0]
+                    MyTelegram.sendPosition(chatID,luogo[0],luogo[1])
+                    MyTelegram.sendMessage(chatID,f"{luogo[3]} prezzo al litro\nspesa prevista {round(response[1], 2)}")
                 except:
                     try:
                         message = str(m["text"]).lower()
@@ -31,12 +32,14 @@ def comunica(connection):
                         if(message.find("/tipologia")!=-1):
                             response=setTipologia(chatID,extract(message,"/tipologia"),connection)
 
-                        if(message.find("/capienza")!=-1):
-                            response=setCapienza(chatID,extract(message,"/capienza"),connection)
+                        if(message.find("/litri")!=-1):
+                            response=setLitri(chatID,extract(message,"/litri"),connection)
 
                         if(message.find("/consumo")!=-1):
                             response=setConsumo(chatID,extract(message,"/consumo"),connection)
                     
-                    except:response="non ho capito"
+                    except:
+                        response="non ho capito"
+
                     MyTelegram.sendMessage(chatID,response)
         time.sleep(1)
