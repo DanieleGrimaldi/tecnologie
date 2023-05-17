@@ -16,9 +16,12 @@ def comunica(connection):
                 chatID = m["chat"]["id"]  
                 try:
                     response=ricerca(chatID,connection,m["location"]["latitude"],m["location"]["longitude"])
-                    luogo=response[0]
-                    MyTelegram.sendPosition(chatID,luogo[0],luogo[1])
-                    MyTelegram.sendMessage(chatID,f"{luogo[3]} prezzo al litro\nspesa prevista {round(response[1], 2)}")
+                    try:
+                        luogo=response[0]
+                        MyTelegram.sendPosition(chatID,luogo[0],luogo[1])
+                        MyTelegram.sendMessage(chatID,f"{luogo[3]} prezzo al litro\nspesa prevista {round(response[1], 2)}")
+                    except:
+                        MyTelegram.sendMessage(chatID,response)
                 except:
                     try:
                         message = str(m["text"]).lower()

@@ -61,7 +61,7 @@ def ricerca(chatID,connection,latitude,longitude):
     else:
         conveniente=(0,0)
         spesaMin=100000000
-        utente=dati(880180377,connection)
+        utente=dati(chatID,connection)
         tipo=utente[0]
         sql=f'''SELECT latitude,longitude,catena,prezzo,
                     (6371000 * Acos (Cos (Radians({latitude})) * Cos(Radians(latitude)) *
@@ -72,10 +72,11 @@ def ricerca(chatID,connection,latitude,longitude):
                 FROM   autopompa join carburante on autopompa.id=carburante.idAutopompa
                 where tipologia="{tipo}"
                 ORDER  BY distance_m 
-                LIMIT  20;'''
-        result=connection.read_query(sql)
+                LIMIT  30;'''
+        result=connection.multiResult(sql)
         for var in result:
-            spesa=costoEffettivo(utente[1],var[3],distanza(latitude,longitude,var[0],var[1]),utente[2])
+            dist=distanza(latitude,longitude,var[0],var[1])
+            spesa=costoEffettivo(utente[1],var[3],dist,utente[2])
             if(spesa<spesaMin):
                 spesaMin=spesa
                 conveniente=(var,spesa)
@@ -90,9 +91,11 @@ def costoEffettivo(consumo,prezzo,distanza,quantita):
 
 
 def distanza(start_latitude,start_longitude,end_latitude,end_longitude):
-
-    route_data = calculate_route(start_latitude, start_longitude, end_latitude, end_longitude)
-    return route_data["features"][0]["properties"]["summary"]["distance"]/1000
+    try:
+        route_data = calculate_route(start_latitude, start_longitude, end_latitude, end_longitude)
+        return route_data["features"][0]["properties"]["summary"]["distance"]/1000
+    except:
+        return 9999
 
 
 def help():

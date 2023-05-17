@@ -112,3 +112,8 @@ def tipologiaCarbrurante(type):
     if(myType in METANO):
         return "METANO"
     return "ALTRO"
+
+def inserisci(connection):
+    svuotaDB(connection)
+    insertImpianti("https://www.mise.gov.it/images/exportCSV/anagrafica_impianti_attivi.csv",connection)
+    insertPrezzi("https://www.mise.gov.it/images/exportCSV/prezzo_alle_8.csv",connection)

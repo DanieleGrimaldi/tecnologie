@@ -7,6 +7,7 @@ threadCarica = Thread(target=aggiorna, args=[connection])
 threadRispondi = Thread(target=comunica, args=[connection])
 threadRispondi.start()
 threadCarica.start()
+#inserisci(connection)
 
 
 

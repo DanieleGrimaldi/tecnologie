@@ -41,3 +41,13 @@ class Connessione:
             return result
         except Error as err:
             print(f"Error: '{err}'")
+    
+
+    def multiResult(self, query):        
+        result = None
+        try:
+            self.cursor.execute(query)
+            result = self.cursor.fetchall()
+            return result
+        except Error as err:
+            print(f"Error: '{err}'")
