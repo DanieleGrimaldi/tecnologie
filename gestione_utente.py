@@ -2,14 +2,14 @@ from connessione import *
 from ORS import *
 
 def start(chatID,username,connection):
-    sql=f"select * from utente where IDchat = '{chatID}'"
+    sql=f"select * from utente where chatID = '{chatID}'"
     result=connection.read_query(sql)
     if len(result)>0:
         return help()
     else:
-        sql=f"INSERT INTO utente (IDchat,username) VALUES ({chatID},'{username}');"
+        sql=f"INSERT INTO utente (chatID,username) VALUES ({chatID},'{username}');"
         connection.execute_query(sql)
-        sql=f"select * from utente where IDchat = '{chatID}'"
+        sql=f"select * from utente where chatID = '{chatID}'"
         result=connection.read_query(sql)
         return help()
 

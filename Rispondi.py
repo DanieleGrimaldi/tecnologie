@@ -22,9 +22,10 @@ def comunica(connection):
                 except:
                     try:
                         message = str(m["text"]).lower()
+
                         if(message.find("/start")!=-1):
-                            myid=start(chatID,m["chat"]["username"],connection)
-                            MyTelegram.sendMessage(chatID,myid)
+                            start(chatID,m["chat"]["username"],connection)
+                            response=help()
                         
                         if(message.find("/help")!=-1):
                             response=help()

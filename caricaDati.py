@@ -14,7 +14,8 @@ def aggiorna(connection):
             svuotaDB(connection)
             insertImpianti("https://www.mise.gov.it/images/exportCSV/anagrafica_impianti_attivi.csv",connection)
             insertPrezzi("https://www.mise.gov.it/images/exportCSV/prezzo_alle_8.csv",connection)
-            time.sleep(86400000)#sto fermo 1 giorno
+            
+        time.sleep(3600)
         
 
 def insertImpianti(URL,connection):
