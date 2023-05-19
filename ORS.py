@@ -4,7 +4,7 @@ def calculate_route(start_latitude, start_longitude, end_latitude, end_longitude
     api_url = "https://api.openrouteservice.org/v2/directions/driving-car"
 
     headers = {
-        "Authorization": "5b3ce3597851110001cf62487d377b2ed72f48b09d41e51457a406b3"
+        "Authorization": "5b3ce3597851110001cf6248979a09d111a04067acc3745267148029"
     }
 
     params = {
@@ -19,6 +19,6 @@ def calculate_route(start_latitude, start_longitude, end_latitude, end_longitude
         return route_data
     else:
         print(f"Failed to calculate the route. Error: {response.status_code}")
-        return None
+        return -1
 
 

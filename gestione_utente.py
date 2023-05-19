@@ -72,10 +72,10 @@ def ricerca(chatID,connection,latitude,longitude):
                 FROM   autopompa join carburante on autopompa.id=carburante.idAutopompa
                 where tipologia="{tipo}"
                 ORDER  BY distance_m 
-                LIMIT  30;'''
+                LIMIT  10;'''
         result=connection.multiResult(sql)
         for var in result:
-            dist=distanza(latitude,longitude,var[0],var[1])
+            dist=distanza(latitude,longitude,var[0],var[1],var[4])
             spesa=costoEffettivo(utente[1],var[3],dist,utente[2])
             if(spesa<spesaMin):
                 spesaMin=spesa
@@ -90,16 +90,18 @@ def costoEffettivo(consumo,prezzo,distanza,quantita):
     return spesa
 
 
-def distanza(start_latitude,start_longitude,end_latitude,end_longitude):
-    try:
-        route_data = calculate_route(start_latitude, start_longitude, end_latitude, end_longitude)
+def distanza(start_latitude,start_longitude,end_latitude,end_longitude,distance_m):
+    route_data = calculate_route(start_latitude, start_longitude, end_latitude, end_longitude)
+    if(route_data!=-1):
         return route_data["features"][0]["properties"]["summary"]["distance"]/1000
-    except:
-        return 9999
+    else:
+        return (distance_m/1000)*1,8
+    
+    
 
 
 def help():
-    return "i comandi sono:\n/tipologia x\n/litri x(litri di benzina da fare)\n/consumo x(km/l)\nper il benzinaio più conveninte manda la posizione"
+    return "i comandi sono:\n/help per visualizzare i comandi\n/tipologia x\n/litri x(litri di benzina da fare)\n/consumo x(km/l)\nper il benzinaio più conveniente manda la posizione"
 
 
 

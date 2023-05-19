@@ -27,7 +27,7 @@ def comunica(connection):
                         message = str(m["text"]).lower()
 
                         if(message.find("/start")!=-1):
-                            start(chatID,m["chat"]["username"],connection)
+                            start(chatID,m["chat"]["first_name"],connection)
                             response=help()
                         
                         if(message.find("/help")!=-1):
